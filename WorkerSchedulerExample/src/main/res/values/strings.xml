@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Example Worker Scheduler</string>
+    <string name="message">Example application for the worker scheduler library</string>
+    <string name="queue_status">Queue status table</string>
+    <string name="queue_status_running">Run</string>
+    <string name="queue_status_queued">Idle</string>
+    <string name="queue_scheduler">Scheduler</string>
+    <string name="queue_continuous_pool">Continuous pool</string>
+    <string name="queue_parallel_pool">Parallel pool</string>
+    <string name="queue_serial_pool">Serial pool</string>
+    <string name="message_controls">Spawn workers:</string>
+    <string name="spawn_scheduler">Directly</string>
+    <string name="spawn_continuous_pool">Continuous pool</string>
+    <string name="spawn_parallel_pool">Parallel pool</string>
+    <string name="spawn_serial_pool">Serial pool</string>
+    <string name="message_log">Worker activity log (scrollable):</string>
+    <string name="message_log_started">Application started</string>
+    <string name="message_log_worker_start">: Worker started</string>
+    <string name="message_log_worker_end">: Worker finished</string>
+    <string name="message_log_worker_cancel">: Worker canceled</string>
+</resources>
