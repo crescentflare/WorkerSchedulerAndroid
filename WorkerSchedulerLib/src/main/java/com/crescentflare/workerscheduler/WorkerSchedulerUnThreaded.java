@@ -25,6 +25,10 @@ public class WorkerSchedulerUnThreaded implements WorkerScheduler
         return instance;
     }
 
+    private WorkerSchedulerUnThreaded()
+    {
+    }
+
     /**
      * Implementation
      */
