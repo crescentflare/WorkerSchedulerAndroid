@@ -1,6 +1,5 @@
 package com.crescentflare.workerschedulerexample;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +10,7 @@ import android.widget.TextView;
 import com.crescentflare.workerscheduler.ContinuousWorkerQueue;
 import com.crescentflare.workerscheduler.WorkerCompletionListener;
 import com.crescentflare.workerscheduler.WorkerPool;
-import com.crescentflare.workerscheduler.WorkerScheduler;
+import com.crescentflare.workerscheduler.WorkerSchedulerDefault;
 import com.crescentflare.workerscheduler.WorkerSequence;
 import com.crescentflare.workerschedulerexample.utility.ExampleLogger;
 import com.crescentflare.workerschedulerexample.utility.ExampleWorker;
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                WorkerScheduler.getInstance().addWorker(new ExampleWorker(logger));
+                WorkerSchedulerDefault.getInstance().addWorker(new ExampleWorker(logger));
             }
         });
         findViewById(R.id.activity_main_continuous_pool_spawn).setOnClickListener(new View.OnClickListener()
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity
                 if (!serialPoolScheduled)
                 {
                     serialPoolScheduled = true;
-                    WorkerScheduler.getInstance().addWorker(serialPool, new WorkerCompletionListener()
+                    WorkerSchedulerDefault.getInstance().addWorker(serialPool, new WorkerCompletionListener()
                     {
                         @Override
                         public void onFinish()
@@ -90,8 +89,8 @@ public class MainActivity extends AppCompatActivity
 
     private void updateQueueStatuses()
     {
-        ((TextView)findViewById(R.id.activity_main_scheduler_idle)).setText("" + WorkerScheduler.getInstance().getIdleWorkerCount());
-        ((TextView)findViewById(R.id.activity_main_scheduler_run)).setText("" + WorkerScheduler.getInstance().getRunningWorkerCount());
+        ((TextView)findViewById(R.id.activity_main_scheduler_idle)).setText("" + WorkerSchedulerDefault.getInstance().getIdleWorkerCount());
+        ((TextView)findViewById(R.id.activity_main_scheduler_run)).setText("" + WorkerSchedulerDefault.getInstance().getRunningWorkerCount());
         ((TextView)findViewById(R.id.activity_main_continuous_pool_idle)).setText("" + continuousPool.getIdleWorkerCount());
         ((TextView)findViewById(R.id.activity_main_continuous_pool_run)).setText("" + continuousPool.getRunningWorkerCount());
         ((TextView)findViewById(R.id.activity_main_parallel_pool_idle)).setText("" + parallelPool.getIdleWorkerCount());

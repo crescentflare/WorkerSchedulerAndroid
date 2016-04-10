@@ -85,7 +85,7 @@ public class ContinuousWorkerQueue
                 {
                     statusListener.onStartWorker(runningWorker.getWorker());
                 }
-                WorkerScheduler.getInstance().addWorker(runningWorker.getWorker(), new WorkerCompletionListener()
+                WorkerSchedulerDefault.getInstance().addWorker(runningWorker.getWorker(), new WorkerCompletionListener()
                 {
                     @Override
                     public void onFinish()
@@ -138,7 +138,7 @@ public class ContinuousWorkerQueue
             }
             else
             {
-                if (WorkerScheduler.getInstance().abortWorker(runningWorker.getWorker()))
+                if (WorkerSchedulerDefault.getInstance().abortWorker(runningWorker.getWorker()))
                 {
                     runningWorker.setAborted(true);
                 }
@@ -176,7 +176,7 @@ public class ContinuousWorkerQueue
             }
             else
             {
-                if (WorkerScheduler.getInstance().abortWorker(runningWorker.getWorker()))
+                if (WorkerSchedulerDefault.getInstance().abortWorker(runningWorker.getWorker()))
                 {
                     runningWorker.setAborted(true);
                 }

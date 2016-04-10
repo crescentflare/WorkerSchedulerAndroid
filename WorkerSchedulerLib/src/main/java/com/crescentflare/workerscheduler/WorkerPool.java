@@ -34,7 +34,7 @@ public class WorkerPool
             final Worker worker = iterator.next();
             scheduledWorkers.add(worker);
             iterator.remove();
-            WorkerScheduler.getInstance().addWorker(worker, new WorkerCompletionListener()
+            WorkerSchedulerDefault.getInstance().addWorker(worker, new WorkerCompletionListener()
             {
                 @Override
                 public void onFinish()
