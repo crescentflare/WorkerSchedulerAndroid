@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.crescentflare.workerscheduler.ContinuousWorkerQueue;
 import com.crescentflare.workerscheduler.WorkerCompletionListener;
 import com.crescentflare.workerscheduler.WorkerPool;
+import com.crescentflare.workerscheduler.WorkerScheduler;
 import com.crescentflare.workerscheduler.WorkerSchedulerDefault;
 import com.crescentflare.workerscheduler.WorkerSequence;
 import com.crescentflare.workerschedulerexample.utility.ExampleLogger;
@@ -21,7 +22,8 @@ import com.crescentflare.workerschedulerexample.utility.ExampleWorker;
  */
 public class MainActivity extends AppCompatActivity
 {
-    private ContinuousWorkerQueue continuousPool = new ContinuousWorkerQueue();
+    private WorkerScheduler scheduler = WorkerSchedulerDefault.getInstance();
+    private ContinuousWorkerQueue continuousPool = new ContinuousWorkerQueue(scheduler);
     private WorkerPool parallelPool = new WorkerPool();
     private WorkerSequence serialPool = new WorkerSequence();
     private ExampleLogger logger = null;
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                WorkerSchedulerDefault.getInstance().addWorker(new ExampleWorker(logger));
+                scheduler.addWorker(new ExampleWorker(logger), null);
             }
         });
         findViewById(R.id.activity_main_continuous_pool_spawn).setOnClickListener(new View.OnClickListener()
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 parallelPool.addWorker(new ExampleWorker(logger));
-                parallelPool.schedule(null);
+                parallelPool.schedule(scheduler, null);
             }
         });
         findViewById(R.id.activity_main_serial_pool_spawn).setOnClickListener(new View.OnClickListener()
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity
                 if (!serialPoolScheduled)
                 {
                     serialPoolScheduled = true;
-                    WorkerSchedulerDefault.getInstance().addWorker(serialPool, new WorkerCompletionListener()
+                    scheduler.addWorker(serialPool, new WorkerCompletionListener()
                     {
                         @Override
                         public void onFinish()
@@ -89,8 +91,8 @@ public class MainActivity extends AppCompatActivity
 
     private void updateQueueStatuses()
     {
-        ((TextView)findViewById(R.id.activity_main_scheduler_idle)).setText("" + WorkerSchedulerDefault.getInstance().getIdleWorkerCount());
-        ((TextView)findViewById(R.id.activity_main_scheduler_run)).setText("" + WorkerSchedulerDefault.getInstance().getRunningWorkerCount());
+        ((TextView)findViewById(R.id.activity_main_scheduler_idle)).setText("" + scheduler.getIdleWorkerCount());
+        ((TextView)findViewById(R.id.activity_main_scheduler_run)).setText("" + scheduler.getRunningWorkerCount());
         ((TextView)findViewById(R.id.activity_main_continuous_pool_idle)).setText("" + continuousPool.getIdleWorkerCount());
         ((TextView)findViewById(R.id.activity_main_continuous_pool_run)).setText("" + continuousPool.getRunningWorkerCount());
         ((TextView)findViewById(R.id.activity_main_parallel_pool_idle)).setText("" + parallelPool.getIdleWorkerCount());

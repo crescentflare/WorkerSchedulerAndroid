@@ -33,7 +33,7 @@ public class WorkerSequence implements Worker
 
     public void addWorker(Worker worker, WorkerCompletionListener doneListener)
     {
-        workers.add(new InternalWorkerItem(worker, doneListener, true));
+        workers.add(new InternalWorkerItem(worker, doneListener));
     }
 
     /**

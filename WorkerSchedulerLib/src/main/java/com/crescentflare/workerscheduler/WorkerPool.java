@@ -27,6 +27,11 @@ public class WorkerPool
 
     public void schedule(WorkerCompletionListener doneListener)
     {
+        schedule(WorkerSchedulerDefault.getInstance(), doneListener);
+    }
+
+    public void schedule(WorkerScheduler scheduler, WorkerCompletionListener doneListener)
+    {
         completionListener = doneListener;
         final Iterator<Worker> iterator = workers.iterator();
         while (iterator.hasNext())
@@ -34,7 +39,7 @@ public class WorkerPool
             final Worker worker = iterator.next();
             scheduledWorkers.add(worker);
             iterator.remove();
-            WorkerSchedulerDefault.getInstance().addWorker(worker, new WorkerCompletionListener()
+            scheduler.addWorker(worker, new WorkerCompletionListener()
             {
                 @Override
                 public void onFinish()

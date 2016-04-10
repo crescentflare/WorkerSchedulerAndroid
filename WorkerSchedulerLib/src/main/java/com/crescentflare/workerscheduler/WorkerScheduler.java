@@ -6,7 +6,7 @@ package com.crescentflare.workerscheduler;
  */
 public interface WorkerScheduler
 {
-    void addWorker(Worker worker, WorkerCompletionListener listener, boolean threaded);
+    void addWorker(Worker worker, WorkerCompletionListener listener);
     boolean abortWorker(Worker worker);
     int getIdleWorkerCount();
     int getRunningWorkerCount();

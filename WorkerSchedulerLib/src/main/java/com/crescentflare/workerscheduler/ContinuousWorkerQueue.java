@@ -14,11 +14,25 @@ public class ContinuousWorkerQueue
     /**
      * Members
      */
+    private WorkerScheduler               scheduler       = null;
     private ArrayList<StatusListener>     statusListeners = new ArrayList<>();
     private ArrayList<InternalWorkerItem> workers         = new ArrayList<>();
     private InternalWorkerItem            runningWorker   = null;
     private boolean                       paused          = false;
 
+
+    /**
+     * Initialization
+     */
+    public ContinuousWorkerQueue()
+    {
+        this(WorkerSchedulerDefault.getInstance());
+    }
+
+    public ContinuousWorkerQueue(WorkerScheduler scheduler)
+    {
+        this.scheduler = scheduler;
+    }
 
     /**
      * Scheduling
@@ -30,17 +44,7 @@ public class ContinuousWorkerQueue
 
     public void addWorker(Worker worker, WorkerCompletionListener listener)
     {
-        addWorker(worker, listener, true);
-    }
-
-    public void addWorker(Worker worker, boolean threaded)
-    {
-        addWorker(worker, null, threaded);
-    }
-
-    public void addWorker(Worker worker, WorkerCompletionListener listener, boolean threaded)
-    {
-        workers.add(new InternalWorkerItem(worker, listener, threaded));
+        workers.add(new InternalWorkerItem(worker, listener));
         for (StatusListener statusListener : statusListeners)
         {
             statusListener.onAddWorker(worker);
@@ -50,7 +54,7 @@ public class ContinuousWorkerQueue
 
     public void addWorkerPool(WorkerPool workerPool, WorkerCompletionListener listener)
     {
-        workers.add(new InternalWorkerItem(workerPool, listener, false));
+        workers.add(new InternalWorkerItem(workerPool, listener));
         for (StatusListener statusListener : statusListeners)
         {
             statusListener.onAddWorkerPool(workerPool);
@@ -85,14 +89,14 @@ public class ContinuousWorkerQueue
                 {
                     statusListener.onStartWorker(runningWorker.getWorker());
                 }
-                WorkerSchedulerDefault.getInstance().addWorker(runningWorker.getWorker(), new WorkerCompletionListener()
+                scheduler.addWorker(runningWorker.getWorker(), new WorkerCompletionListener()
                 {
                     @Override
                     public void onFinish()
                     {
                         finishedWorker(runningWorker);
                     }
-                }, runningWorker.isThreaded());
+                });
             }
         }
         return false;
@@ -138,7 +142,7 @@ public class ContinuousWorkerQueue
             }
             else
             {
-                if (WorkerSchedulerDefault.getInstance().abortWorker(runningWorker.getWorker()))
+                if (scheduler.abortWorker(runningWorker.getWorker()))
                 {
                     runningWorker.setAborted(true);
                 }
@@ -176,7 +180,7 @@ public class ContinuousWorkerQueue
             }
             else
             {
-                if (WorkerSchedulerDefault.getInstance().abortWorker(runningWorker.getWorker()))
+                if (scheduler.abortWorker(runningWorker.getWorker()))
                 {
                     runningWorker.setAborted(true);
                 }

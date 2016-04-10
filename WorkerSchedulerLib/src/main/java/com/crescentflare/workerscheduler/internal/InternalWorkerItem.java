@@ -15,25 +15,22 @@ public class InternalWorkerItem
     private Worker worker = null;
     private WorkerPool workerPool = null;
     private WorkerCompletionListener doneListener = null;
-    private boolean threaded = false;
     private boolean aborted = false;
 
 
     /**
      * Initialization
      */
-    public InternalWorkerItem(Worker worker, WorkerCompletionListener doneListener, boolean threaded)
+    public InternalWorkerItem(Worker worker, WorkerCompletionListener doneListener)
     {
         this.worker = worker;
         this.doneListener = doneListener;
-        this.threaded = threaded;
     }
 
-    public InternalWorkerItem(WorkerPool workerPool, WorkerCompletionListener doneListener, boolean threaded)
+    public InternalWorkerItem(WorkerPool workerPool, WorkerCompletionListener doneListener)
     {
         this.workerPool = workerPool;
         this.doneListener = doneListener;
-        this.threaded = threaded;
     }
 
     /**
@@ -52,11 +49,6 @@ public class InternalWorkerItem
     public WorkerCompletionListener getDoneListener()
     {
         return doneListener;
-    }
-
-    public boolean isThreaded()
-    {
-        return threaded;
     }
 
     /**

@@ -29,6 +29,11 @@ public abstract class SimpleWorker implements Worker
 
     public void start()
     {
-        WorkerSchedulerDefault.getInstance().addWorker(this);
+        start(WorkerSchedulerDefault.getInstance());
+    }
+
+    public void start(WorkerScheduler scheduler)
+    {
+        scheduler.addWorker(this, null);
     }
 }
