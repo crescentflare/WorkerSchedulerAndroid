@@ -13,14 +13,6 @@ import java.util.Iterator;
 public class WorkerSchedulerUnThreaded implements WorkerScheduler
 {
     /**
-     * Members
-     */
-    private ArrayList<WorkerThread> threads = new ArrayList<WorkerThread>();
-    private ArrayList<InternalWorkerItem> workers = new ArrayList<InternalWorkerItem>();
-    private ArrayList<InternalWorkerItem> runningWorkers = new ArrayList<InternalWorkerItem>();
-
-
-    /**
      * Initialization
      */
     private static WorkerSchedulerUnThreaded instance;
